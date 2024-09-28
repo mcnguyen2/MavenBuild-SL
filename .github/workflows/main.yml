@@ -26,3 +26,18 @@ jobs:
           connect_timeout: 10s
           first_ssh: |
             sudo curl -l -u admin:113b1d54abb81092259e9bcccb74f8b8f1 http://localhost:8080/job/JenkinsJobTrigger/build?token=Token22
+            sudo chmod 777 /var/lib/tomcat9/webapps
+          scp: |
+            './target/*war' => /var/lib/tomcat9/webapps
+          last_ssh: |
+            sudo systemctl restart tomcat9
+      - name: connect to LAB and deploy code on tomcat9
+        uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+        with:
+          host: '52.66.216.13'
+          user: 'labuser'
+          pass: 'Nuvelabs123$'
+          port: 22
+          connect_timeout: 10s
+          first_ssh: |
+            sudo curl -l -u admin:113b1d54abb81092259e9bcccb74f8b8f1 http://localhost:8080/job/JenkinsJobTrigger/build?token=Token22
